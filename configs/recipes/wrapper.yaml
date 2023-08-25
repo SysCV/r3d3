@@ -1,0 +1,10 @@
+r3d3:
+    seed: 42
+    min_epochs: 0
+    max_epochs: 50
+    grad_scaler: False
+    find_unused_parameters: True
+    flip_lr_prob: 0
+    validate_first: True
+    validate_flipped: False
+    sync_batch_norm: True

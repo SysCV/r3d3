@@ -1,0 +1,102 @@
+wrapper:
+    recipe: wrapper|r3d3
+    validate_first: True
+    max_epochs: 20
+arch:
+    model:
+        root: training_arch
+        file: depth_completion/DepthCompletionModel
+        # General:
+        use_gt_pose: False
+        contexts: [[-1, 1], [0], [0]]
+        backproject_dim: [ 6, 384, 640 ]
+        # Augmentation:
+        col_jit_params: [ 0.2, 0.2, 0.2, 0.05 ]
+        p_flip: 0.5
+        p_zero_inp: 0.2
+        disable_automasking: False
+        # Masking:
+        confidence_thresh: 0.0
+        flow_cons_threshold: 3.0
+        max_depth_threshold: 200.0
+        # Loss weighting:
+        weight_tgt_cam: 1.0
+        weight_ref_cam: 0.1
+        disparity_smoothness: 0.001
+        weight_ssim: 0.85
+        weight_l1: 0.15
+    networks:
+        completion:
+            recipe: networks/completion|ddad
+optimizers:
+    completion:
+        name: Adam
+        lr: 0.0001
+        scheduler:
+            name: StepLR
+            step_size: 15
+            gamma: 0.1
+evaluation:
+    depth:
+        recipe: evaluation/depth|ddad
+datasets:
+    train:
+        root: [ datasets ]
+        name: [ DDADR3D3 ]
+        path: [ data/datasets/DDAD ]
+        split: [ data/splits/ddad/train.txt ]
+        ref_sampler:
+            name: R3D3MotionRefSampler
+            load_cached_graph: False
+            context: [ -1,0,1 ]
+            d_min: 0.4
+            d_max: 4.0
+            random_choice: False
+        augmentation:
+            resize: [ 384, 640 ]
+        dataloader:
+            batch_size: 6
+            drop_last: True
+            pin_memory: True
+            num_workers: 1
+        labels: [ pose, mask, others_pose, others_disp_conf ]
+        labels_context: [ pose, others_pose, others_disp_conf ]
+        squeeze_sensor: [ False ]
+        cameras:
+          - [ 'camera_01', 'camera_05', 'camera_06' ]
+          - [ 'camera_05', 'camera_01', 'camera_07' ]
+          - [ 'camera_06', 'camera_01', 'camera_08' ]
+          - [ 'camera_07', 'camera_05', 'camera_09' ]
+          - [ 'camera_08', 'camera_06', 'camera_09' ]
+          - [ 'camera_09', 'camera_07', 'camera_08' ]
+    validation:
+        root: [ datasets ]
+        name: [ DDADR3D3 ]
+        path: [ data/datasets/DDAD ]
+        split: [ val ]
+        augmentation:
+            resize: [ 384, 640 ]
+        dataloader:
+            batch_size: 1
+            pin_memory: True
+            num_workers: 1
+        squeeze_sensor: [ False ]
+        labels: [ pose, depth, others_pose, others_disp_conf ]
+        cameras:
+          - [ 'camera_01' ]
+          - [ 'camera_05' ]
+          - [ 'camera_06' ]
+          - [ 'camera_07' ]
+          - [ 'camera_08' ]
+          - [ 'camera_09' ]
+checkpoint:
+    folder: data/checkpoints/ddad/stage_1
+    keep_top: 1
+# wandb:
+#     folder: data/wandb/
+#     entity: <user_name>
+#     project: r3d3_ddad
+#     num_train_logs: 2
+#     num_validation_logs: 4
+#     only_first_view: True
+#     only_first_ctx: True

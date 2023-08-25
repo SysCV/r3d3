@@ -1,0 +1,31 @@
+ddad:
+    root: training_arch
+    file: CompletionNet
+
+    input_disp_mode: normalize
+    min_conf: 0.5
+    mask_disp_clip: False
+    disp_dist: [ 0.07605, 0.071 ] # mean, std
+    disp_up_dist: [ 0.0765, 0.070 ] # mean, std
+    min_depth_in: 3.575
+    max_depth_in: 238.36
+
+    min_depth_out: 3.575
+    max_depth_out: 238.36
+    focal_norm: 715.0873
+
+nuscenes:
+    root: training_arch
+    file: CompletionNet
+
+    input_disp_mode: normalize
+    min_conf: 0.8
+    mask_disp_clip: True
+    disp_dist: [ 0.07605, 0.071 ] # mean, std
+    disp_up_dist: [ 0.0765, 0.070 ] # mean, std
+    min_depth_in: 1.0
+    max_depth_in: 80.0
+
+    min_depth_out: 1.0
+    max_depth_out: 80.0
+    focal_norm: 500.0

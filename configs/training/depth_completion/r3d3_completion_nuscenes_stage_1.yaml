@@ -1,0 +1,100 @@
+wrapper:
+    recipe: wrapper|r3d3
+    validate_first: True
+    max_epochs: 10
+arch:
+    model:
+        root: training_arch
+        file: depth_completion/DepthCompletionModel
+        # General:
+        use_gt_pose: False
+        contexts: [[ -1, 1 ]]
+        backproject_dim: [ 6, 448, 768 ]
+        # Augmentation:
+        col_jit_params: [ 0.2, 0.2, 0.2, 0.05 ]
+        p_flip: 0.5
+        p_zero_inp: 0.2
+        disable_automasking: False
+        # Masking:
+        confidence_thresh: 0.0
+        flow_cons_threshold: 3.0
+        max_depth_threshold: 200.0
+        # Loss weighting:
+        weight_tgt_cam: 1.0
+        weight_ref_cam: 0.1
+        disparity_smoothness: 0.001
+        weight_ssim: 0.85
+        weight_l1: 0.15
+    networks:
+        completion:
+            recipe: networks/completion|nuscenes
+optimizers:
+    completion:
+        name: Adam
+        lr: 0.0001
+evaluation:
+    depth:
+        recipe: evaluation/depth|nuscenes
+datasets:
+    train:
+        root: [ datasets ]
+        name: [ NuScenesR3D3 ]
+        path: [ data/datasets/nuScenes ]
+        split: [ data/splits/nuscenes/train.json ]
+        version: [ v1.0-trainval ]
+        ref_sampler:
+            name: R3D3MotionRefSampler
+            load_cached_graph: False
+            context: [ -1,0,1 ]
+            d_min: 0.4
+            d_max: 2.0
+            random_choice: False
+        augmentation:
+            resize: [ 448, 768 ]
+        dataloader:
+            batch_size: 6
+            drop_last: True
+            pin_memory: True
+            num_workers: 1
+        labels: [ pose, mask, others_pose, others_disp_conf ]
+        labels_context: [ pose, others_pose, others_disp_conf ]
+        squeeze_sensor: [ False ]
+        cameras:
+          - [ 'CAM_FRONT' ]
+          - [ 'CAM_FRONT_LEFT' ]
+          - [ 'CAM_FRONT_RIGHT' ]
+          - [ 'CAM_BACK_LEFT' ]
+          - [ 'CAM_BACK_RIGHT' ]
+          - [ 'CAM_BACK' ]
+    validation:
+        root: [ datasets ]
+        name: [ NuScenesR3D3 ]
+        path: [ data/datasets/nuScenes ]
+        split: [ data/splits/nuscenes/validation.json ]
+        version: [ v1.0-trainval ]
+        augmentation:
+            resize: [ 448, 768 ]
+        dataloader:
+            batch_size: 1
+            pin_memory: True
+            num_workers: 1
+        squeeze_sensor: [ False ]
+        labels: [ pose, depth, others_pose, others_disp_conf ]
+        cameras:
+          - [ 'CAM_FRONT' ]
+          - [ 'CAM_FRONT_LEFT' ]
+          - [ 'CAM_FRONT_RIGHT' ]
+          - [ 'CAM_BACK_LEFT' ]
+          - [ 'CAM_BACK_RIGHT' ]
+          - [ 'CAM_BACK' ]
+checkpoint:
+    folder: data/checkpoints/nuscenes/stage_1
+    keep_top: 1
+# wandb:
+#     folder: data/wandb/
+#     entity: <user_name>
+#     project: r3d3_nuscenes
+#     num_train_logs: 2
+#     num_validation_logs: 4
+#     only_first_view: True
+#     only_first_ctx: True

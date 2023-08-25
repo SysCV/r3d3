@@ -1,0 +1,33 @@
+name: r3d3
+channels:
+  - pyg
+  - pytorch
+  - defaults
+dependencies:
+  - python=3.8
+  - cudatoolkit=11.3
+  - pytorch=1.10.0
+  - torchvision=0.11.0
+  - torchaudio=0.10.0
+  - pytorch-scatter
+  - numpy
+  - matplotlib
+  - ujson==1.35
+  - tqdm==4.65.0
+  - pip=22.1.2
+  - pip:
+    - flow_vis==0.1
+    - einops==0.3.2
+    - opencv-python==4.5.3.56
+    - git+https://github.com/TRI-ML/dgp.git@v1.5
+    - scalabel==0.3.0
+    - nuscenes-devkit==1.1.9
+    - pyransac3d
+    - pytest==6.2.5
+    - pydantic==1.10.7
+    - protobuf==3.20.3
+    - evo==1.18.1
+    - fire==0.4.0
+    - wandb==0.10.31
+    - open3d==0.15.2
+    - git+https://github.com/facebookresearch/pytorch3d.git@v0.7.0

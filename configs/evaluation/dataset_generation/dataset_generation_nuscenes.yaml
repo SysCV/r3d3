@@ -1,0 +1,18 @@
+evaluation:
+    depth:
+        recipe: evaluation/depth|ddad
+    trajectory:
+        root: training_arch
+        file: TrajectoryMetric
+datasets:
+    validation:
+        root: [ datasets ]
+        name: [ NuScenes ]
+        path: [ data/datasets/nuScenes ]
+        split: [ train, val ]
+        version: [v1.0-trainval]
+        augmentation:
+            resize: [ 448, 768 ]
+        squeeze_sensor: [ False ]
+        labels: [ pose, depth, mask ]
+        cameras: [['CAM_FRONT', 'CAM_FRONT_LEFT', 'CAM_FRONT_RIGHT', 'CAM_BACK_LEFT', 'CAM_BACK_RIGHT', 'CAM_BACK']]

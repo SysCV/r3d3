@@ -1,0 +1,21 @@
+networks:
+    completion:
+        recipe: networks/completion|ddad
+        checkpoint: data/models/completion/completion_ddad.ckpt
+evaluation:
+    depth:
+        recipe: evaluation/depth|ddad
+    trajectory:
+        root: training_arch
+        file: TrajectoryMetric
+datasets:
+    validation:
+        root: [ datasets ]
+        name: [ DDAD ]
+        path: [ /media/datadrive/DDAD ]
+        split: [ val ]
+        augmentation:
+            resize: [ 384, 640 ]
+        squeeze_sensor: [ False ]
+        labels: [ pose, depth, mask ]
+        cameras: [ [ 'camera_01', 'camera_05', 'camera_06', 'camera_07', 'camera_08', 'camera_09' ] ]
