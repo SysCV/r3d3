@@ -19,11 +19,6 @@ refinement network. We show that this design enables a dense, consistent 3D reco
 outdoor environments. Consequently, we achieve state-of-the-art dense depth prediction on the DDAD and nuScenes 
 benchmarks.
 
-## Requirements
-
-To run the code you will need ...
-* **Inference:** Running the demos will require a GPU with at least 24G of memory. 
-
 ## Getting Started
 1. Clone the repo using the `--recursive` flag
 ```Bash
@@ -207,11 +202,12 @@ python evaluate.py \
 ```
 
 ## Citation
+If you find the code helpful in your research or work, please cite the following paper.
 ```
-@article{...,
+@inproceedings{r3d3,
   title={R3D3: Dense 3D Reconstruction of Dynamic Scenes from Multiple Cameras},
-  author={...},
-  journal={ICCV},
+  author={Schmied, Aron and Fischer, Tobias and Danelljan, Martin and Pollefeys, Marc and Yu, Fisher},
+  booktitle={ICCV},
   year={2023}
 }
 ```
