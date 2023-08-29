@@ -1,5 +1,5 @@
 # R3D3: Dense 3D Reconstruction of Dynamic Scenes from Multiple Cameras [ICCV 2023]
-### [Project Page](https://vis.xyz/pub/r3d3/) | [Paper](https://arxiv.org/abs/2308.14713) | [Data](https://drive.google.com/drive/folders/1KffVz7zPmcAYbZIXHH2xFoPCmcLZJfUd?usp=sharing)
+### [Project Page](http://vis.xyz/pub/r3d3/) | [Paper](https://arxiv.org/abs/2308.14713) | [Data](https://drive.google.com/drive/folders/1KffVz7zPmcAYbZIXHH2xFoPCmcLZJfUd?usp=sharing)
 
 ![IMAGE ALT TEXT HERE](figures/project_figure.png)
 
