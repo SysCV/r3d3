@@ -2,6 +2,7 @@ networks:
     completion:
         recipe: networks/completion|nuscenes
         checkpoint: data/models/completion/completion_nuscenes.ckpt
+        pretrained_encoder: False
 evaluation:
     depth:
         recipe: evaluation/depth|nuscenes

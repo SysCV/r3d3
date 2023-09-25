@@ -22,7 +22,8 @@ class CompletionNet(BaseNet):
             min_depth_out=cfg_has(cfg, 'min_depth_out', 1.0),
             max_depth_out=cfg_has(cfg, 'max_depth_out', 200.0),
             focal_norm=cfg_has(cfg, 'focal_norm', 1.0),
-            mask_disp_clip=cfg_has(cfg, 'mask_disp_clip', False)
+            mask_disp_clip=cfg_has(cfg, 'mask_disp_clip', False),
+            pretrained_encoder=cfg_has(cfg, 'pretrained_encoder', True),
         )
 
     def train(self, mode: bool = True):

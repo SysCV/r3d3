@@ -2,6 +2,7 @@ networks:
     completion:
         recipe: networks/completion|ddad
         checkpoint: data/models/completion/completion_ddad.ckpt
+        pretrained_encoder: False
 evaluation:
     depth:
         recipe: evaluation/depth|ddad

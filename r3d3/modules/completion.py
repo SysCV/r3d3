@@ -72,6 +72,7 @@ class CompletionEncoder(nn.Module):
                 nn.init.constant_(m.bias, 0)
 
         # Load ImageNet pretrained weights for available layers
+        print("Load ImageNet pretrained weights.")
         if pretrained:
             model_state = self.state_dict()
             loaded_state = model_zoo.load_url(resnet.model_urls['resnet{}'.format(num_layers)])
@@ -225,6 +226,7 @@ class DepthCompletion(nn.Module):
         max_depth_out: Optional[float] = 200.0,
         focal_norm: Optional[float] = 1.0,
         mask_disp_clip: Optional[float] = False,
+        pretrained_encoder: Optional[bool] = True,
     ):
         super(DepthCompletion, self).__init__()
         self.input_disp_mode = input_disp_mode
@@ -235,7 +237,7 @@ class DepthCompletion(nn.Module):
         self.max_depth_in = max_depth_in
         self.mask_disp_clip = mask_disp_clip
 
-        self.encoder = CompletionEncoder(num_layers=18, pretrained=True)
+        self.encoder = CompletionEncoder(num_layers=18, pretrained=pretrained_encoder)
         self.decoder = CompletionDecoder(min_depth=min_depth_out, max_depth=max_depth_out, focal_norm=focal_norm)
         self.do_focal_scaling = True
 
