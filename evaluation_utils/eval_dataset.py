@@ -171,7 +171,7 @@ class Evaluator:
                 writer.writeheader()
                 writer.writerows(pred_pose_list)
         self.depth_results.extend([{'idx': res['ds_idx'], **res} for res in scene_depth_results])
-        if 'depth' in self.metrics:
+        if 'depth' in self.metrics and len(scene_depth_results) >= 1:
             reduced_data = self.metrics['depth'].reduce_metrics(
                 [[{'idx': res['sc_idx'], **res} for res in scene_depth_results]],
                 [scene_depth_results], strict=False
